@@ -1,21 +1,39 @@
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+
 fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTquGUJUCZuG1XCP2dGXVzF5XO_6fq3_EVfLZ0LufaT3802cdpknRVljzOJvq62WF7g7ASVKsmDjHDO/pub?output=tsv")
 .then(res => res.text())
 .then(data => {
+
   const rows = data.trim().split("\n").slice(1,4);
   const players = rows.map(r => r.split("\t"));
 
+  // 🥇 Gold
+  const name1 = players[0][0];
+  const pts1  = players[0][players[0].length - 1];
+
+  // 🥈 Silver
+  const name2 = players[1][0];
+  const pts2  = players[1][players[1].length - 1];
+
+  // 🥉 Bronze
+  const name3 = players[2][0];
+  const pts3  = players[2][players[2].length - 1];
+
   document.getElementById("p1").innerHTML =
-    "🥇<br><b>" + players[0][0] + "</b><br>" + players[0][4] + " pts";
+    "🥇<br><b>" + name1 + "</b><br>" + pts1 + " pts";
 
   document.getElementById("p2").innerHTML =
-    "🥈<br><b>" + players[1][0] + "</b><br>" + players[1][4] + " pts";
+    "🥈<br><b>" + name2 + "</b><br>" + pts2 + " pts";
 
   document.getElementById("p3").innerHTML =
-    "🥉<br><b>" + players[2][0] + "</b><br>" + players[2][4] + " pts";
+    "🥉<br><b>" + name3 + "</b><br>" + pts3 + " pts";
+
 })
 .catch(err => {
   document.body.innerHTML = "⚠️ Failed to load standings";
   console.error(err);
+});
+
 });
 </script>
