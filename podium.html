@@ -1,56 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<style>
-body {
-  font-family: sans-serif;
-  display: flex;
-  justify-content: center;
-  margin-top: 30px;
-}
-.podium {
-  display:flex;
-  align-items:flex-end;
-  gap:16px;
-}
-.card {
-  border-radius:12px;
-  padding:12px;
-  text-align:center;
-  box-shadow:0 6px 16px rgba(0,0,0,0.25);
-  width:140px;
-}
-.gold {
-  width:160px;
-  background:linear-gradient(180deg,#ffd700,#e6b800);
-  box-shadow:0 10px 28px rgba(0,0,0,0.35);
-}
-.silver {
-  background:#c0c0c0;
-  transform:translateY(20px);
-}
-.bronze {
-  background:#cd7f32;
-  transform:translateY(30px);
-}
-</style>
-</head>
-
-<body>
-
-<div class="podium">
-  <div class="card silver" id="p2"></div>
-  <div class="card gold" id="p1"></div>
-  <div class="card bronze" id="p3"></div>
-</div>
-
 <script>
-fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTquGUJUCZuG1XCP2dGXVzF5XO_6fq3_EVfLZ0LufaT3802cdpknRVljzOJvq62WF7g7ASVKsmDjHDO/pub?output=csv")
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTquGUJUCZuG1XCP2dGXVzF5XO_6fq3_EVfLZ0LufaT3802cdpknRVljzOJvq62WF7g7ASVKsmDjHDO/pub?output=tsv")
 .then(res => res.text())
 .then(data => {
-  const rows = data.split("\n").slice(1,4); // top 3
-  const players = rows.map(r => r.split(","));
+  const rows = data.trim().split("\n").slice(1,4);
+  const players = rows.map(r => r.split("\t"));
 
   document.getElementById("p1").innerHTML =
     "🥇<br><b>" + players[0][0] + "</b><br>" + players[0][4] + " pts";
@@ -60,8 +13,9 @@ fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTquGUJUCZuG1XCP2dGXVzF5X
 
   document.getElementById("p3").innerHTML =
     "🥉<br><b>" + players[2][0] + "</b><br>" + players[2][4] + " pts";
+})
+.catch(err => {
+  document.body.innerHTML = "⚠️ Failed to load standings";
+  console.error(err);
 });
 </script>
-
-</body>
-</html>
