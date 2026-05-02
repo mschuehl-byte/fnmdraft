@@ -1,0 +1,21 @@
+<script>
+fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vTquGUJUCZuG1XCP2dGXVzF5XO_6fq3_EVfLZ0LufaT3802cdpknRVljzOJvq62WF7g7ASVKsmDjHDO/pub?output=tsv")
+.then(res => res.text())
+.then(data => {
+  const rows = data.trim().split("\n").slice(1,4);
+  const players = rows.map(r => r.split("\t"));
+
+  document.getElementById("p1").innerHTML =
+    "🥇<br><b>" + players[0][0] + "</b><br>" + players[0][4] + " pts";
+
+  document.getElementById("p2").innerHTML =
+    "🥈<br><b>" + players[1][0] + "</b><br>" + players[1][4] + " pts";
+
+  document.getElementById("p3").innerHTML =
+    "🥉<br><b>" + players[2][0] + "</b><br>" + players[2][4] + " pts";
+})
+.catch(err => {
+  document.body.innerHTML = "⚠️ Failed to load standings";
+  console.error(err);
+});
+</script>
